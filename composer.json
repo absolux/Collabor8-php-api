@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "Collabor8-php-api",
+    "description": "Collabor8 Restful API",
+    "keywords": ["Collabor8", "api", "laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
