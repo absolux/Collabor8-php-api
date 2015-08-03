@@ -24,6 +24,6 @@ class UserTest extends \TestCase {
         $admin = factory(User::class, 'admin')->make();
         
         $this->assertInstanceOf(User::class, $admin);
-        $this->assertEquals("John DOE", $admin->name);
+        $this->assertEquals('admin', $admin->role);
     }
 }

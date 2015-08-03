@@ -24,6 +24,7 @@ $factory->defineAs(App\User::class, 'admin', function() {
     return [
         'name' => "John DOE",
         'email' => "john.doe@example.com",
+        'role' => 'admin', 
         'password' => str_random(10),
         'remember_token' => str_random(10),
     ];
