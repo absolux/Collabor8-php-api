@@ -29,3 +29,11 @@ $factory->defineAs(App\User::class, 'admin', function() {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Project::class, function(Faker\Generator $faker) {
+    return [
+        'name' => $faker->paragraph(),
+        'due' => $faker->date(),
+        'desc' => $faker->text()
+    ];
+});
