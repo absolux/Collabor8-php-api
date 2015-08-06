@@ -35,4 +35,11 @@ class Task extends \Illuminate\Database\Eloquent\Model {
     public function label() {
         return $this->belongsTo('App\ProjectLabel');
     }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activity() {
+        return $this->morphMany('App\Activity', 'resource');
+    }
 }

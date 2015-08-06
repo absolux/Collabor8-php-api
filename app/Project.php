@@ -25,4 +25,11 @@ class Project extends \Illuminate\Database\Eloquent\Model {
     public function labels() {
         return $this->hasMany('App\ProjectLabel');
     }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activity() {
+        return $this->morphMany('App\Activity', 'resource');
+    }
 }
