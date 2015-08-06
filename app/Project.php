@@ -27,6 +27,13 @@ class Project extends \Illuminate\Database\Eloquent\Model {
     }
     
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks() {
+        return $this->hasMany('App\Task');
+    }
+    
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function activity() {
