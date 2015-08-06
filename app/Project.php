@@ -3,13 +3,14 @@
 namespace App;
 
 class Project extends \Illuminate\Database\Eloquent\Model {
+    use \Illuminate\Database\Eloquent\SoftDeletes;
     
     
     public $timestamps = false;
-    
-    protected $softDelete = true;
 
     protected $fillable = ['name', 'due', 'desc'];
+    
+    protected $dates = ['deleted_at'];
     
     
     /**
