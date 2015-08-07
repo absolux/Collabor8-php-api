@@ -24,4 +24,8 @@ class Activity extends \Illuminate\Database\Eloquent\Model {
     public function resource() {
         return $this->morphTo();
     }
+    
+    public function setUpdatedAt($value) {
+        // Do nothing
+    }
 }
