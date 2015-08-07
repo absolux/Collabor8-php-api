@@ -41,3 +41,13 @@ $factory->define(App\Project::class, function(Faker\Generator $faker) {
 $factory->define(App\ProjectLabel::class, function(Faker\Generator $faker) {
     return ['name' => $faker->word];
 });
+
+$factory->define(App\Activity::class, function() {
+    return [
+        'type' => 'foo', 
+        'note' => 'bar',
+        'resource_type' => 'Dummy\Type',
+        'resource_id' => 007,
+        
+    ];
+});
