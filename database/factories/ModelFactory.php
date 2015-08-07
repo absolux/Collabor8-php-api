@@ -32,8 +32,12 @@ $factory->defineAs(App\User::class, 'admin', function() {
 
 $factory->define(App\Project::class, function(Faker\Generator $faker) {
     return [
-        'name' => $faker->paragraph(),
+        'name' => $faker->sentence(rand(1, 3)),
         'due' => $faker->date(),
         'desc' => $faker->text()
     ];
+});
+
+$factory->define(App\ProjectLabel::class, function(Faker\Generator $faker) {
+    return ['name' => $faker->word];
 });
