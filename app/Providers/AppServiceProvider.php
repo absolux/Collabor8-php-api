@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \App\Project::observe(new \App\Observers\ActivityObserver);
+        
+        \App\Activity::creating(function($activity) {
+            $activity->user()->associate(auth()->user());
+        });
     }
 
     /**
