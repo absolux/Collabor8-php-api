@@ -10,14 +10,6 @@ class Activity extends \Illuminate\Database\Eloquent\Model {
     protected $fillable = ['type', 'note'];
     
     
-    protected static function boot() {
-        parent::boot();
-        
-        static::creating(function(Activity $activity) {
-            $activity->user()->associate(Auth::user());
-        });
-    }
-    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
