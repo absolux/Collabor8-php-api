@@ -17,11 +17,15 @@ class ProjectTest extends \TestCase {
      * @return Project
      */
     function testCreateEmptyProject() {
+        $this->_userLoginIn();
         $project = factory(Project::class)->create();
         
         $this->assertInstanceOf(Project::class, $project);
-        $this->assertTrue($project->team()->get()->isEmpty());
-        $this->assertTrue($project->labels()->get()->isEmpty());
+        
+        // project activity 
+        $this->assertEquals(1, $project->activity()->get()->count());
+        $activity = $project->activity()->get()->get(0);
+        $this->assertEquals('create', $activity->type);
         
         return $project;
     }
@@ -64,10 +68,13 @@ class ProjectTest extends \TestCase {
      * @param Project $project
      */
     function testUpdateProjectName(Project $project) {
+        $this->_userLoginIn();
+        
         $old_name = $project->name;
         $project->update(['name' => "New project name"]);
         
         $this->assertNotEquals($old_name, $project->name);
+        $this->assertEquals(1, $project->activity()->get()->count());
     }
     
     /**
@@ -75,6 +82,8 @@ class ProjectTest extends \TestCase {
      * @param Project $project
      */
     function testMakeProjectArchived(Project $project) {
+        $this->_userLoginIn();
+        
         $project->delete();
         $this->assertTrue($project->trashed());
         

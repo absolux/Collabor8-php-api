@@ -30,5 +30,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         Artisan::call('migrate');
     }
     
+    protected function _userLoginIn() {
+        $user = factory(\App\User::class)->create();
+        $this->actingAs($user);
+    }
     
 }
