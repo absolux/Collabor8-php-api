@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Auth;
-
 class Activity extends \Illuminate\Database\Eloquent\Model {
     
     
