@@ -15,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Project::observe(new \App\Observers\ActivityObserver);
         
+        \App\Task::observe(new \App\Observers\ActivityObserver());
+        
         \App\Activity::creating(function($activity) {
             $activity->user()->associate(auth()->user());
         });

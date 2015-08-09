@@ -17,7 +17,7 @@ class Task extends \Illuminate\Database\Eloquent\Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function assigned() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
     
     /**

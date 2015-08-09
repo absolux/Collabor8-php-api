@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->boolean('flag')->default(false);
             $table->date('due')->nullable();
             
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
                   ->references('id')->on('users');
             
