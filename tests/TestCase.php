@@ -35,4 +35,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->actingAs($user);
     }
     
+    protected function _parseJsonResponse() {
+        return json_decode($this->response->content(), true);
+    }
 }

@@ -89,8 +89,4 @@ class ProjectsControllerTest extends \TestCase {
         $this->assertCount(5, Project::all());
         $this->assertNull($json['deleted_at']);
     }
-    
-    private function _parseJsonResponse() {
-        return json_decode($this->response->content(), true);
-    }
 }

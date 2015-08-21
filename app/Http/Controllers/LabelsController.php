@@ -11,6 +11,19 @@ class LabelsController extends Controller
 {
     
     /**
+     * Dsiplay a listing of the project labels
+     * 
+     * @param Project $project
+     * @return Response
+     */
+    public function index(Project $project)
+    {
+        $project->load('labels');
+        
+        return response()->json($project);
+    }
+    
+    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request

@@ -34,6 +34,10 @@ Route::group(['middleware' => 'auth'], function() {
      */
     Route::resource('projects.tasks', 'TasksController', ['except' => ['create', 'edit']]);
     
+    /*
+     * Project team routes
+     */
+    Route::resource('projects.team', 'TeamsController', ['only' => ['index', 'store', 'update', 'destroy']]);
     
 });
 

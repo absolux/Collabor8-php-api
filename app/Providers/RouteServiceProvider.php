@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         
         $router->model('tasks', \App\Task::class);
         $router->model('labels', \App\ProjectLabel::class);
+        $router->model('team', \App\User::class);
 
         parent::boot($router);
     }
