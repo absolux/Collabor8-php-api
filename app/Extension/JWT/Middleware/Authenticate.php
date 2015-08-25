@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Extension\JWT\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 
-class RedirectIfAuthenticated
-{
+class Authenticate {
+    
+    
     /**
      * The Guard implementation.
      *
@@ -28,14 +30,14 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if ($this->auth->check()) {
-            return redirect('/home');
+        if ($this->auth->guest()) {
+            return response('Unauthorized.', 401);
         }
 
         return $next($request);
