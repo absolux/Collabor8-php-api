@@ -2,6 +2,7 @@
 
 namespace App\Extension\JWT\Auth;
 
+use BadMethodCallException;
 use Illuminate\Contracts\Auth\Guard as GuardContract;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -35,7 +36,7 @@ class Driver implements GuardContract {
      *
      * @var Authenticatable
      */
-    protected $lastAttempted;
+    protected $attempted;
     
     /**
      * @var Dispatcher
@@ -127,12 +128,14 @@ class Driver implements GuardContract {
             $this->events->fire('auth.attempt', $argv);
         }
         
-        $this->lastAttempted = $user = $this->provider->retrieveByCredentials($credentials);
+        $this->attempted = $user = $this->provider->retrieveByCredentials($credentials);
         
         if ( $user && $this->provider->validateCredentials($user, $credentials) ) {
             if ( $login ) {
                 $this->login($user, $refresh);
             }
+            
+            return true;
         }
         
         return false;
@@ -144,7 +147,9 @@ class Driver implements GuardContract {
      * @param  string  $field
      * @return \Symfony\Component\HttpFoundation\Response|null
      */
-    public function basic($field = 'email') {}
+    public function basic($field = 'email') {
+        throw new BadMethodCallException();
+    }
 
     /**
      * Determine if the current user is authenticated.
@@ -252,7 +257,7 @@ class Driver implements GuardContract {
      */
     public function once(array $credentials = array()) {
         if ( $this->validate($credentials) ) {
-            $this->setUser($this->lastAttempted);
+            $this->setUser($this->attempted);
             
             return true;
         }
@@ -267,12 +272,7 @@ class Driver implements GuardContract {
      * @return \Symfony\Component\HttpFoundation\Response|null
      */
     public function onceBasic($field = 'email') {
-        $credentials = [
-            $field => $this->getRequest()->getUser(),
-            'password' => $this->getRequest()->getPassword()
-        ];
-        
-        return $this->attempt($credentials);
+        throw new BadMethodCallException();
     }
 
     /**
