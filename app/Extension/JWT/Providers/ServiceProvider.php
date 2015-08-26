@@ -3,6 +3,7 @@
 namespace App\Extension\JWT\Providers;
 
 use Illuminate\Support\ServiceProvider as ProviderContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Extension\JWT\Auth\Driver;
 
@@ -29,9 +30,17 @@ class ServiceProvider extends ProviderContract {
      * @return UserProvider
      */
     protected function createUserProvider($app) {
-        $repositor = new TokenProvider();
+        $repository = new TokenProvider();
         
-        return new UserProvider($app['hash'], $repositor, config('auth.model'));
+        return new UserProvider($app['hash'], $repository, $this->createModel());
+    }
+    
+    /**
+     * @return Model
+     */
+    protected function createModel() {
+        $class = '\\'.ltrim(config('auth.model'), '\\');
+        return new $class();
     }
     
     public function register() {

@@ -43,16 +43,14 @@ class UserProvider implements ProviderContract {
      * 
      * @param Hasher $hasher
      * @param TokenRepository $repository
-     * @param string $model
+     * @param Model $model
      */
-    public function __construct(Hasher $hasher, TokenRepository $repository, $model) {
+    public function __construct(Hasher $hasher, TokenRepository $repository, Model $model) {
         $this->hasher = $hasher;
         
         $this->repository = $repository;
         
-        // create the user model
-        $class = '\\'.ltrim($model, '\\');
-        $this->model = new $class();
+        $this->model = $model;
     }
     
     /**
