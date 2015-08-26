@@ -26,8 +26,16 @@ class TokenProvider implements ProviderContract {
      * @throws InvalidArgumentException
      */
     public function decode($token) {
-        $token = $this->parser()->parse($token);
-        
+        try {
+            // parse method of token parser throws a RuntimeException,
+            // when json_decode() encounter an error. 
+            // Instead, we throw an InvalidArgumentException to have a common
+            // Exception for this method
+            $token = $this->parser()->parse($token);
+        } catch (\RuntimeException $exc) {
+            throw new InvalidArgumentException();
+        }
+
         if (! $this->validate($token) ) {
             throw new InvalidArgumentException();
         }

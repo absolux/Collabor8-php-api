@@ -84,6 +84,7 @@ class UserProvider implements ProviderContract {
      *
      * @param  string $token
      * @return Authenticatable|null
+     * @throws \InvalidArgumentException
      */
     public function retrieveByToken($token) {
         $id = $this->repository->decode($token)->getClaim('sub');
