@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Lcobucci\JWT\Token;
 
 /**
  * Description of JWTUserProvider
@@ -110,7 +111,7 @@ class UserProvider implements ProviderContract {
      * Create a new token from the user identifier
      * 
      * @param Authenticatable $user
-     * @param string
+     * @param Token
      */
     public function refreshToken(Authenticatable $user) {
         $claims = [
@@ -119,7 +120,7 @@ class UserProvider implements ProviderContract {
             'locale' => config('app.locale')
         ];
         
-        return (string) $this->repository->encode($user->getAuthIdentifier(), $claims);
+        return $this->repository->encode($user->getAuthIdentifier(), $claims);
     }
 
     

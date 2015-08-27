@@ -8,6 +8,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Symfony\Component\HttpFoundation\Request;
 use App\Extension\JWT\Contracts\UserProvider;
+use Lcobucci\JWT\Token;
 
 /**
  * Description of JWTGuard
@@ -30,6 +31,11 @@ class Driver implements GuardContract {
      * @var Authenticatable
      */
     protected $user;
+    
+    /**
+     * @var Token
+     */
+    protected $token;
     
     /**
      * The user we last attempted to retrieve.
@@ -170,7 +176,7 @@ class Driver implements GuardContract {
             $this->login($user);
             return true;
         }
-        
+    
         return false;
     }
     
@@ -220,11 +226,9 @@ class Driver implements GuardContract {
      * @param Authenticatable $user
      */
     protected function refreshToken(Authenticatable $user) {
-        $token = $this->provider->refreshToken($user);
-        
-        response()->headers->set(config('jwt.header'), $token);
+        $this->token = $this->provider->refreshToken($user);
     }
-
+    
     /**
      * Log the given user ID into the application.
      *
@@ -234,6 +238,10 @@ class Driver implements GuardContract {
      */
     public function loginUsingId($id, $refresh = false) {
         $user = $this->provider->retrieveById($id);
+        
+        if ( is_null($user) ) {
+            return null;
+        }
         
         $this->login($user, $refresh);
         
@@ -247,6 +255,7 @@ class Driver implements GuardContract {
      */
     public function logout() {
         $this->user = null;
+        $this->token = null;
     }
 
     /**
@@ -321,4 +330,12 @@ class Driver implements GuardContract {
         return $this->viaToken;
     }
 
+    /**
+     * Get token object for authenticated user
+     * 
+     * @return Token
+     */
+    public function getToken() {
+        return $this->token;
+    }
 }

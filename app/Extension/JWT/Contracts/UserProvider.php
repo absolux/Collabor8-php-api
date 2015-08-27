@@ -3,6 +3,7 @@
 namespace App\Extension\JWT\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Lcobucci\JWT\Token;
 
 /**
  *
@@ -39,7 +40,7 @@ interface UserProvider {
      * Create a new token from the user identifier
      * 
      * @param Authenticatable $user
-     * @param string
+     * @param Token
      */
     function refreshToken(Authenticatable $user);
     
