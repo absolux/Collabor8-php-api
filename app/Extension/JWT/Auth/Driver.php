@@ -131,7 +131,7 @@ class Driver implements GuardContract {
      */
     public function attempt(array $credentials = array(), $refresh = false, $login = true) {
         if ( $this->events ) {
-            $this->events->fire('auth.attempt', $argv);
+            $this->events->fire('auth.attempt', func_get_args());
         }
         
         $this->attempted = $user = $this->provider->retrieveByCredentials($credentials);
@@ -214,7 +214,7 @@ class Driver implements GuardContract {
         }
 
         if ( $this->events ) {
-            $this->events->fire('auth.login', $argv);
+            $this->events->fire('auth.login', func_get_args());
         }
         
         $this->setUser($user);
