@@ -50,7 +50,7 @@ Route::post('/authenticate', function() {
         if ( $authed && ($token = auth()->getToken()) ) {
             $header = config('jwt.header');
             
-            return (new Response())->header($header, $token);
+            return (new Response())->header($header, (string) $token);
         }
     } catch (Exception $exc) {
         // Do nothing
