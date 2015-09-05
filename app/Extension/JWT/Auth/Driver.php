@@ -167,12 +167,17 @@ class Driver implements GuardContract {
             return true;
         }
         
-        $token = $this->parseToken();
-        $user = $this->provider->retrieveByToken($token);
+        try {
+            // try to get a user account from token data
+            $token = $this->parseToken();
+            $user = $this->provider->retrieveByToken($token);
+            
+            $this->viaToken = !is_null($user);
+        } catch (\InvalidArgumentException $exc) {
+            return false;
+        }
         
-        $this->viaToken = !is_null($user);
-        
-        if ( $user ) {
+        if (! is_null($user) ) {
             $this->login($user);
             return true;
         }
