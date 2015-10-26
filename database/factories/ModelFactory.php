@@ -16,7 +16,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => str_random(10),
-        'remember_token' => str_random(10),
+        //'remember_token' => str_random(10),
     ];
 });
 
@@ -26,7 +26,7 @@ $factory->defineAs(App\User::class, 'admin', function() {
         'email' => "john.doe@example.com",
         'role' => 'admin', 
         'password' => str_random(10),
-        'remember_token' => str_random(10),
+        //'remember_token' => str_random(10),
     ];
 });
 

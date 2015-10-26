@@ -16,7 +16,7 @@ class Task extends \Illuminate\Database\Eloquent\Model {
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function assigned() {
+    public function assignee() {
         return $this->belongsTo('App\User', 'user_id');
     }
     
@@ -42,4 +42,22 @@ class Task extends \Illuminate\Database\Eloquent\Model {
     public function activity() {
         return $this->morphMany('App\Activity', 'resource');
     }
+    
+    public function getDoneAttribute($value) {
+        return (boolean) $value;
+    }
+    
+    public function getFlagAttribute($value) {
+        return (boolean) $value;
+    }
+    
+    public function setDoneAttribute($value) {
+        $this->attributes['done'] = (int) ($value);
+    }
+    
+    public function setFlagAttribute($value) {
+        $this->attributes['flag'] = (int) ($value);
+    }
+    
+    
 }

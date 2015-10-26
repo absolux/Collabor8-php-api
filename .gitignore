@@ -4,3 +4,4 @@
 Homestead.yaml
 composer.lock
 .env
+/client

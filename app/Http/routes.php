@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Response;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,9 +15,6 @@
 |
 */
 
-/*
- * Projects routes
- */
 Route::group(['middleware' => 'auth'], function() {
     
     /*
@@ -39,6 +40,23 @@ Route::group(['middleware' => 'auth'], function() {
      */
     Route::resource('projects.team', 'TeamsController', ['only' => ['index', 'store', 'update', 'destroy']]);
     
+});
+
+Route::post('/authenticate', function() {
+    try {
+        $credentials = Request::only('email', 'password');
+        $authed = auth()->attempt($credentials, true);
+        
+        if ( $authed && ($token = auth()->getToken()) ) {
+            $header = config('jwt.header');
+            
+            return (new Response())->header($header, (string) $token);
+        }
+    } catch (Exception $exc) {
+        // Do nothing
+    }
+
+    return response('Unauthorized.', 401);
 });
 
 Route::get('/', function () {
