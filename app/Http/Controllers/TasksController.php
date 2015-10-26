@@ -11,7 +11,7 @@ class TasksController extends Controller
 {
     /**
      * Display a listing of the project tasks with label and assigned user.
-     *
+     * 
      * @param Project $project
      * @return Response
      */
@@ -19,7 +19,7 @@ class TasksController extends Controller
     {
         return $project->tasks()
                        ->getQuery()
-                       ->with('label', 'assigned')
+                       ->with('label', 'assignee')
                        ->get();
     }
 
@@ -48,7 +48,7 @@ class TasksController extends Controller
      */
     public function show(Project $project, Task $task)
     {
-        $task->load('label', 'assigned', 'activity');
+        $task->load('label', 'assignee', 'activity');
         
         return $task;
     }
@@ -65,7 +65,7 @@ class TasksController extends Controller
     {
         if ( $request->has('user_id') ) {
             $user = \App\User::findOrFail($request->input('user_id'));
-            $task->assigned()->associate($user);
+            $task->assignee()->associate($user);
         }
         
         if ( $request->has('label_id') ) {
@@ -75,7 +75,7 @@ class TasksController extends Controller
         
         $task->update($request->all());
         
-        return $task;
+        return $this->show($project, $task);
     }
 
     /**

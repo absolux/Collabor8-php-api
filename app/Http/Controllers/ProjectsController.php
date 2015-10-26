@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\Http\Requests\CreateProjectForm;
 
 class ProjectsController extends Controller {
     
@@ -30,10 +31,10 @@ class ProjectsController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  CreateProjectForm  $request
      * @return Response
      */
-    public function store(Request $request) {
+    public function store(CreateProjectForm $request) {
         $project = Project::create($request->all());
         
         // attach to the current user
