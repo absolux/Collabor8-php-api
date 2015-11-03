@@ -37,10 +37,10 @@ class TaskTest extends \TestCase {
     function testSetTaskAssignedUser() {
         $user = factory(User::class)->create(['name' => "simo"]);
         
-        $this->task->assigned()->associate($user);
+        $this->task->assignee()->associate($user);
         $this->task->save();
         
-        $this->assertEquals('simo', $this->task->assigned->name);
+        $this->assertEquals('simo', $this->task->assignee->name);
         $this->assertEquals(2, $this->task->activity->count());
         $this->assertEquals('user_id', $this->task->activity->get(1)->type);
     }

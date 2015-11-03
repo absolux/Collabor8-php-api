@@ -20,7 +20,7 @@ class TasksControllerTest extends \TestCase {
         $project = factory(Project::class)->create();
         $tasks = factory(Task::class, 5)->make()->each(function(Task $t) use ($project) {
             $t->project()->associate($project);
-            $t->assigned()->associate(auth()->user());
+            $t->assignee()->associate(auth()->user());
         });
         
         $project->tasks()->saveMany($tasks);
@@ -49,7 +49,7 @@ class TasksControllerTest extends \TestCase {
              ->seeStatusCode(200);
     }
     
-    function testChangeTaskAssignedUser() {
+    function testChangeTaskAssigneeUser() {
         $user = factory(User::class)->create();
         
         $this->patch('/projects/1/tasks/2', ['user_id' => $user->id])
