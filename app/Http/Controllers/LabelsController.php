@@ -51,7 +51,7 @@ class LabelsController extends Controller
     {
         $label->update($request->all());
         
-        return response()->json($label);http://localhost:8000
+        return response()->json($label);
 
     }
 
@@ -65,5 +65,7 @@ class LabelsController extends Controller
     public function destroy(Project $project, ProjectLabel $label)
     {
         $label->delete();
+        
+        return $label;
     }
 }
