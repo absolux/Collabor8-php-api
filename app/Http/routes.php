@@ -40,6 +40,10 @@ Route::group(['middleware' => 'auth'], function() {
      */
     Route::resource('projects.team', 'TeamsController', ['only' => ['index', 'store', 'update', 'destroy']]);
     
+    /**
+     * Users routes
+     */
+    Route::resource('users', 'UsersController', ['only' => ['index']]);
 });
 
 Route::post('/authenticate', function() {
