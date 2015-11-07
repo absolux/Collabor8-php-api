@@ -55,6 +55,8 @@ class TeamsController extends Controller
     public function destroy(Project $project, User $user)
     {
         $project->team()->detach($user);
+        
+        return $user;
     }
 
     /**
@@ -69,5 +71,7 @@ class TeamsController extends Controller
         $role = $request->input('role', 'member');
         
         $project->team()->updateExistingPivot($user->id, ['role' => $role]);
+        
+        return $user;
     }
 }
