@@ -63,13 +63,17 @@ class TasksController extends Controller
      */
     public function update(Request $request, Project $project, Task $task)
     {
-        if ( $request->has('user_id') ) {
-            $user = \App\User::findOrFail($request->input('user_id'));
+        if ( empty($user_id = $request->input('user_id')) ) {
+            $task->assignee()->dissociate();
+        } else {
+            $user = \App\User::findOrFail($user_id);
             $task->assignee()->associate($user);
         }
         
-        if ( $request->has('label_id') ) {
-            $label = \App\ProjectLabel::findOrFail($request->input('label_id'));
+        if ( empty($label_id = $request->input('label_id')) ) {
+            $task->label()->dissociate();
+        } else {
+            $label = \App\ProjectLabel::findOrFail($label_id);
             $task->label()->associate($label);
         }
         
@@ -87,5 +91,7 @@ class TasksController extends Controller
     public function destroy(Project $project, Task $task)
     {
         $task->delete();
+        
+        return $task;
     }
 }
