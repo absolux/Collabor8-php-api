@@ -94,4 +94,34 @@ class TasksController extends Controller
         
         return $task;
     }
+    
+    /**
+     * 
+     * @param Project $project
+     * @param Task $task
+     * @return Collecion
+     */
+    public function activity(Project $project, Task $task)
+    {
+        return $task->activity()
+                    ->getQuery()
+                    ->with('user')
+                    ->get();
+    }
+    
+    /**
+     * 
+     * @param Project $project
+     * @param Task $task
+     */
+    public function comment(Request $request, Project $project, Task $task)
+    {
+        $comment = new \App\Activity($request->all() + ['type' => 'comment']);
+        
+        $comment->user()->associate(auth()->user());
+        $comment->resource()->associate($task);
+        $comment->save();
+        
+        return $comment;
+    }
 }
