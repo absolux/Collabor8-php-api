@@ -19,8 +19,22 @@ class TasksController extends Controller
     {
         return $project->tasks()
                        ->getQuery()
+                       ->orderBy('due')
                        ->with('label', 'assignee')
                        ->get();
+    }
+    
+    /**
+     * Returns all active user tasks
+     */
+    public function mine() {
+        $user = auth()->user();
+        
+        return $user->tasks()
+                    ->getQuery()
+                    ->orderBy('due')
+                    ->with('label', 'assignee')
+                    ->get();
     }
 
     /**
@@ -33,6 +47,11 @@ class TasksController extends Controller
     public function store(Request $request, Project $project)
     {
         $task = new Task($request->all());
+        
+        if (! empty($user_id = $request->input('user_id')) ) {
+            $user = \App\User::findOrFail($user_id);
+            $task->assignee()->associate($user);
+        }
         
         $project->tasks()->save($task);
         

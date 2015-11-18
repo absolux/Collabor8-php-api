@@ -40,4 +40,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function projects() {
         return $this->belongsToMany(\App\Project::class)->withPivot('role');
     }
+    
+    public function tasks() {
+        return $this->hasMany(Task::class);
+    }
 }

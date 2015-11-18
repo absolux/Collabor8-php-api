@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function() {
     /*
      * Tasks routes
      */
+    Route::get('tasks/mine', ['as' => 'user.tasks', 'uses' => 'TasksController@mine']);
     Route::get('projects/{projects}/tasks/{tasks}/activity', ['as' => 'projects.tasks.activity', 'uses' => 'TasksController@activity']);
     Route::post('projects/{projects}/tasks/{tasks}/activity', ['as' => 'projects.tasks.comment', 'uses' => 'TasksController@comment']);
     Route::resource('projects.tasks', 'TasksController', ['except' => ['create', 'edit']]);
