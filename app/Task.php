@@ -2,22 +2,30 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 
-
-class Task extends \Illuminate\Database\Eloquent\Model {
+class Task extends Model implements ActivityInterface {
     
     
-    public $timestamps = false;
+    public $timestamps = true;
     
-    protected $fillable = ['name', 'done', 'flag', 'due'];
+    protected $fillable = ['name', 'status'];
     
+    
+    /**
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function assignees() {
+        return $this->belongsToMany(User::class, 'task_user', 'user_id');
+    }
     
     /**
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function assignee() {
-        return $this->belongsTo('App\User', 'user_id');
+    public function author() {
+        return $this->belongsTo(User::class, 'user_id');
     }
     
     /**
@@ -25,39 +33,7 @@ class Task extends \Illuminate\Database\Eloquent\Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project() {
-        return $this->belongsTo('App\Project');
+        return $this->belongsTo(Project::class);
     }
-    
-    /**
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function label() {
-        return $this->belongsTo('App\ProjectLabel');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function activity() {
-        return $this->morphMany('App\Activity', 'resource');
-    }
-    
-    public function getDoneAttribute($value) {
-        return (boolean) $value;
-    }
-    
-    public function getFlagAttribute($value) {
-        return (boolean) $value;
-    }
-    
-    public function setDoneAttribute($value) {
-        $this->attributes['done'] = (int) ($value);
-    }
-    
-    public function setFlagAttribute($value) {
-        $this->attributes['flag'] = (int) ($value);
-    }
-    
     
 }

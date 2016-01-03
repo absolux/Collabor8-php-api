@@ -2,13 +2,15 @@
 
 namespace App;
 
-class Project extends \Illuminate\Database\Eloquent\Model {
+use Illuminate\Database\Eloquent\Model;
+
+class Project extends Model implements ActivityInterface {
     use \Illuminate\Database\Eloquent\SoftDeletes;
     
     
-    public $timestamps = false;
-
-    protected $fillable = ['name', 'due', 'desc'];
+    public $timestamps = true;
+    
+    protected $fillable = ['name', 'desc'];
     
     protected $dates = ['deleted_at'];
     
@@ -16,28 +18,15 @@ class Project extends \Illuminate\Database\Eloquent\Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function team() {
-        return $this->belongsToMany('App\User')->withPivot('role');
+    public function people() {
+        return $this->belongsToMany(User::class);
     }
     
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function labels() {
-        return $this->hasMany('App\ProjectLabel');
+    public function author() {
+        return $this->belongsTo(User::class);
     }
     
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tasks() {
-        return $this->hasMany('App\Task');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function activity() {
-        return $this->morphMany('App\Activity', 'resource');
-    }
 }

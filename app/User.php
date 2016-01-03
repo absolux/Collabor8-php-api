@@ -31,17 +31,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password'];
     
     
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function projects() {
-        return $this->belongsToMany(\App\Project::class)->withPivot('role');
+        return $this->belongsToMany(Project::class);
     }
     
     public function tasks() {
         return $this->hasMany(Task::class);
     }
+    
 }
